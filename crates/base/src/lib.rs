@@ -115,8 +115,8 @@ pub use dialog::{
 };
 pub use element_ext::ElementExt;
 pub use event::{
-    InteractiveElementExt, KeystrokeExt, ModifiersExt, OngoingScrollExt, ScrollEvent,
-    ScrollWheelEvent,
+    InteractiveElementExt, KeyBindingExt, KeystrokeExt, ModifiersExt, OngoingScrollExt,
+    ScrollEvent, ScrollWheelEvent,
 };
 pub use focus_trap::FocusTrapElement;
 #[doc(hidden)]

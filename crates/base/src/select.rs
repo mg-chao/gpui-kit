@@ -8,7 +8,9 @@ use gpui::{
 };
 
 use crate::actions::{Cancel, Confirm, SelectDown, SelectUp};
-use crate::{StyledExt as _, TestSupportExt as _, a11y_disabled::A11yDisabledExt as _};
+use crate::{
+    KeyBindingExt as _, StyledExt as _, TestSupportExt as _, a11y_disabled::A11yDisabledExt as _,
+};
 
 const CONTEXT: &str = "Select";
 
@@ -23,10 +25,11 @@ pub fn init(cx: &mut App) {
         KeyBinding::new("up", SelectUp, Some(CONTEXT)),
         KeyBinding::new("down", SelectDown, Some(CONTEXT)),
         KeyBinding::new("enter", Confirm { secondary: false }, Some(CONTEXT)),
-        KeyBinding::new(
+        KeyBinding::new_for_app(
             "secondary-enter",
             Confirm { secondary: true },
             Some(CONTEXT),
+            cx,
         ),
         KeyBinding::new("escape", Cancel, Some(CONTEXT)),
     ]);

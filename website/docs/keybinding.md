@@ -12,15 +12,18 @@ A **KeyBinding** maps one or more keystrokes to a typed [Action](./action). GPUI
 
 `KeyBinding::new(keys, action, context)` takes a keystroke string, an Action value, and an optional context predicate. Call `cx.bind_keys(...)` during initialization. A `None` context is eligible throughout the application; `Some("Editor")` requires an `Editor` context on the focused path.
 
+Use `KeyBindingExt::new_for_app(keys, action, context, cx)` for `secondary-` shortcuts. It resolves the modifier through the app platform and works with both Kit backends. The fork's `KeyBinding::new` accepts only explicit modifiers and cannot resolve `secondary-` without an app context.
+
 ```rust
 use gpui_kit::*;
+use gpui_kit::base::KeyBindingExt as _;
 
 actions!(editor, [SaveDocument, MoveSelectionUp]);
 const EDITOR_CONTEXT: &str = "Editor";
 
 fn init_keys(cx: &mut App) {
     cx.bind_keys([
-        KeyBinding::new("secondary-s", SaveDocument, Some(EDITOR_CONTEXT)),
+        KeyBinding::new_for_app("secondary-s", SaveDocument, Some(EDITOR_CONTEXT), cx),
         KeyBinding::new("up", MoveSelectionUp, Some(EDITOR_CONTEXT)),
     ]);
 }

@@ -6,7 +6,7 @@ use gpui::{
 };
 
 use crate::{
-    Select,
+    KeyBindingExt as _, Select,
     actions::{Cancel, Confirm, SelectDown, SelectUp},
     styled::StyledExt as _,
 };
@@ -18,10 +18,11 @@ pub(crate) fn init(cx: &mut App) {
         KeyBinding::new("up", SelectUp, Some(CONTEXT)),
         KeyBinding::new("down", SelectDown, Some(CONTEXT)),
         KeyBinding::new("enter", Confirm { secondary: false }, Some(CONTEXT)),
-        KeyBinding::new(
+        KeyBinding::new_for_app(
             "secondary-enter",
             Confirm { secondary: true },
             Some(CONTEXT),
+            cx,
         ),
         KeyBinding::new("escape", Cancel, Some(CONTEXT)),
     ]);
