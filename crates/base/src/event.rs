@@ -1,6 +1,7 @@
 use gpui::{
-    App, ClickEvent, Div, InteractiveElement, InvalidKeystrokeError, Keystroke, Modifiers,
-    OngoingScroll, Pixels, Point, Stateful, StatefulInteractiveElement, TouchPhase, Window,
+    Action, App, ClickEvent, Div, InteractiveElement, InvalidKeystrokeError, KeyBinding, Keystroke,
+    Modifiers, OngoingScroll, Pixels, Point, Stateful, StatefulInteractiveElement, TouchPhase,
+    Window,
 };
 
 #[cfg(not(feature = "gpui-fast"))]
@@ -10,6 +11,40 @@ pub use gpui::ScrollWheelEvent as ScrollEvent;
 
 /// Legacy name retained for Kit consumers on both GPUI backends.
 pub type ScrollWheelEvent = ScrollEvent;
+
+/// Keybinding construction using the selected backend's platform API.
+pub trait KeyBindingExt: Sized {
+    /// Construct a binding, resolving `secondary-` for the app platform.
+    ///
+    /// Like `KeyBinding::new`, panics for an invalid shortcut or context predicate.
+    fn new_for_app<A: Action>(keystrokes: &str, action: A, context: Option<&str>, cx: &App)
+    -> Self;
+}
+
+impl KeyBindingExt for KeyBinding {
+    fn new_for_app<A: Action>(
+        keystrokes: &str,
+        action: A,
+        context: Option<&str>,
+        cx: &App,
+    ) -> Self {
+        #[cfg(feature = "gpui-fast")]
+        {
+            let _ = cx;
+            Self::new(keystrokes, action, context)
+        }
+        #[cfg(not(feature = "gpui-fast"))]
+        {
+            let context = context.map(|context| {
+                gpui::KeyBindingContextPredicate::parse(context)
+                    .expect("valid keybinding context")
+                    .into()
+            });
+            Self::load(keystrokes, Box::new(action), context, false, None, cx)
+                .expect("valid app keybinding")
+        }
+    }
+}
 
 /// Dynamic keystroke conversion using the selected backend's platform API.
 pub trait KeystrokeExt: Sized {
@@ -149,6 +184,31 @@ impl InteractiveElementExt for Div {}
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[gpui::test]
+    fn secondary_bindings_follow_the_app_platform(cx: &mut gpui::TestAppContext) {
+        cx.update(|cx| {
+            for shortcut in [
+                "secondary-enter",
+                "secondary-c",
+                "secondary-a",
+                "ctrl-k secondary-c",
+            ] {
+                let binding = KeyBinding::new_for_app(
+                    shortcut,
+                    crate::actions::Confirm { secondary: true },
+                    Some("Input && !Disabled"),
+                    cx,
+                );
+                let keystrokes: Vec<_> = shortcut
+                    .split_whitespace()
+                    .map(|source| Keystroke::parse_for_app(source, cx).unwrap())
+                    .collect();
+                assert_eq!(binding.match_keystrokes(&keystrokes), Some(false));
+                assert!(keystrokes.last().unwrap().modifiers.secondary_pressed(cx));
+            }
+        });
+    }
 
     #[gpui::test]
     fn secondary_modifiers_follow_the_app_platform(cx: &mut gpui::TestAppContext) {

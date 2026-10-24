@@ -1,4 +1,4 @@
-use gpui_base::ModifiersExt as _;
+use gpui_base::{KeyBindingExt as _, ModifiersExt as _};
 use instant::Duration;
 use std::ops::Range;
 
@@ -29,7 +29,7 @@ pub(crate) fn init(cx: &mut App) {
     cx.bind_keys([
         KeyBinding::new("escape", Cancel, context),
         KeyBinding::new("enter", Confirm { secondary: false }, context),
-        KeyBinding::new("secondary-enter", Confirm { secondary: true }, context),
+        KeyBinding::new_for_app("secondary-enter", Confirm { secondary: true }, context, cx),
         KeyBinding::new("up", SelectUp, context),
         KeyBinding::new("down", SelectDown, context),
     ]);

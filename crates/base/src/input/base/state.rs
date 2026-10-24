@@ -2,7 +2,7 @@
 //!
 //! Based on the `Input` example from the `gpui` crate.
 //! https://github.com/zed-industries/zed/blob/main/crates/gpui/examples/input.rs
-use crate::{InteractiveElementExt as _, ScrollWheelEvent};
+use crate::{InteractiveElementExt as _, KeyBindingExt as _, ScrollWheelEvent};
 use gpui::TextAlign;
 use gpui::{
     Action, App, AppContext, Bounds, ClipboardItem, Context, Edges, Entity, EntityInputHandler,
@@ -174,13 +174,14 @@ pub(crate) fn init(cx: &mut App) {
             },
             Some(CONTEXT),
         ),
-        KeyBinding::new(
+        KeyBinding::new_for_app(
             "secondary-enter",
             Enter {
                 secondary: true,
                 shift: false,
             },
             Some(CONTEXT),
+            cx,
         ),
         KeyBinding::new("escape", Escape, Some(CONTEXT)),
         KeyBinding::new("up", MoveUp, Some(CONTEXT)),

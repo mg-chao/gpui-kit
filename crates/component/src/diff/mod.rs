@@ -25,7 +25,7 @@ use gpui::{
     StatefulInteractiveElement as _, StyleRefinement, Styled, TextRun, Window, div, list, point,
     prelude::FluentBuilder as _, px,
 };
-use gpui_base::TestSupportExt as _;
+use gpui_base::{KeyBindingExt as _, TestSupportExt as _};
 use rust_i18n::t;
 
 use crate::{
@@ -73,8 +73,8 @@ pub(crate) fn init(cx: &mut App) {
         KeyBinding::new("end", Last, Some("Diff")),
         KeyBinding::new("shift-up", ExtendUp, Some("Diff")),
         KeyBinding::new("shift-down", ExtendDown, Some("Diff")),
-        KeyBinding::new("secondary-c", Copy, Some("Diff")),
-        KeyBinding::new("secondary-a", SelectAll, Some("Diff")),
+        KeyBinding::new_for_app("secondary-c", Copy, Some("Diff"), cx),
+        KeyBinding::new_for_app("secondary-a", SelectAll, Some("Diff"), cx),
     ]);
 }
 

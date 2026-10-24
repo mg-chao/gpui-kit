@@ -12,15 +12,18 @@ order: -2.625
 
 `KeyBinding::new(keys, action, context)` 接收按键字符串、Action 值和可选的 context predicate。在初始化时调用 `cx.bind_keys(...)`。`None` 使 binding 在整个应用中有匹配资格；`Some("Editor")` 要求当前 Focus 路径上有 `Editor` context。
 
+包含 `secondary-` 的快捷键应使用 `KeyBindingExt::new_for_app(keys, action, context, cx)`。它根据应用所在平台解析修饰键，兼容 Kit 的两个后端。当前 fork 的 `KeyBinding::new` 只接受明确的修饰键，没有应用上下文时无法解析 `secondary-`。
+
 ```rust
 use gpui_kit::*;
+use gpui_kit::base::KeyBindingExt as _;
 
 actions!(editor, [SaveDocument, MoveSelectionUp]);
 const EDITOR_CONTEXT: &str = "Editor";
 
 fn init_keys(cx: &mut App) {
     cx.bind_keys([
-        KeyBinding::new("secondary-s", SaveDocument, Some(EDITOR_CONTEXT)),
+        KeyBinding::new_for_app("secondary-s", SaveDocument, Some(EDITOR_CONTEXT), cx),
         KeyBinding::new("up", MoveSelectionUp, Some(EDITOR_CONTEXT)),
     ]);
 }
