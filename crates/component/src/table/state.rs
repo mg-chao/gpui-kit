@@ -1,3 +1,4 @@
+use gpui_base::ModifiersExt as _;
 use gpui_base::TestSupportExt as _;
 use std::{ops::Range, rc::Rc, time::Duration};
 
@@ -858,7 +859,7 @@ where
         }
 
         cx.stop_propagation();
-        if self.selects_row_on_click(e) {
+        if self.selects_row_on_click(e, cx) {
             self.set_selected_row(row_ix, cx);
         }
 
@@ -868,9 +869,9 @@ where
     }
 
     /// Whether a click on a row selects it, see `select_on_modifier_click`.
-    fn selects_row_on_click(&self, e: &ClickEvent) -> bool {
+    fn selects_row_on_click(&self, e: &ClickEvent, cx: &gpui::App) -> bool {
         let modifiers = e.modifiers();
-        self.select_on_modifier_click || !(modifiers.secondary() || modifiers.shift)
+        self.select_on_modifier_click || !(modifiers.secondary_pressed(cx) || modifiers.shift)
     }
 
     fn on_col_head_click(&mut self, col_ix: usize, _: &mut Window, cx: &mut Context<Self>) {
@@ -915,7 +916,7 @@ where
             && self.row_selectable
             && is_reselect
             && !is_double_click
-            && self.selects_row_on_click(e);
+            && self.selects_row_on_click(e, cx);
         if should_escalate_to_row {
             self.set_selected_row(row_ix, cx);
             return;
@@ -1789,7 +1790,7 @@ where
                 this.when(self.row_selectable, |this| {
                     this.on_click(cx.listener(move |table, e: &ClickEvent, _window, cx| {
                         cx.stop_propagation();
-                        if table.selects_row_on_click(e) {
+                        if table.selects_row_on_click(e, cx) {
                             table.set_selected_row(row_ix, cx);
                         }
                     }))

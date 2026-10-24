@@ -1,11 +1,11 @@
 //! Boundary displacement only: the list keeps its clamped logical position.
 
 use crate::overscroll::Overscroll;
-use crate::{OngoingScrollExt as _, ScrollbarHandle};
+use crate::{OngoingScrollExt as _, ScrollWheelEvent, ScrollbarHandle};
 use gpui::{
     AnyElement, App, Bounds, ContentMask, DispatchPhase, Element, ElementId, Global,
     GlobalElementId, Hitbox, HitboxBehavior, HitboxId, InspectorElementId, IntoElement, LayoutId,
-    OngoingScroll, Pixels, ScrollDelta, ScrollWheelEvent, TouchPhase, Window, point, px,
+    OngoingScroll, Pixels, ScrollDelta, TouchPhase, Window, point, px,
 };
 #[cfg(not(target_family = "wasm"))]
 use std::time::Instant;
@@ -1085,7 +1085,7 @@ mod tests {
         cx.update(|window, cx| {
             for (delta, phase) in [(-30., TouchPhase::Started), (0., TouchPhase::Ended)] {
                 window.dispatch_event(
-                    gpui::PlatformInput::ScrollWheel(ScrollWheelEvent {
+                    gpui::InputEvent::to_platform_input(ScrollWheelEvent {
                         position: point(px(100.), px(100.)),
                         delta: ScrollDelta::Pixels(point(px(0.), px(delta))),
                         touch_phase: phase,
@@ -1116,7 +1116,7 @@ mod tests {
         cx.update(|window, cx| {
             for (delta, phase) in [(-30., TouchPhase::Started), (5., TouchPhase::Moved)] {
                 window.dispatch_event(
-                    gpui::PlatformInput::ScrollWheel(ScrollWheelEvent {
+                    gpui::InputEvent::to_platform_input(ScrollWheelEvent {
                         position: point(px(100.), px(100.)),
                         delta: ScrollDelta::Pixels(point(px(0.), px(delta))),
                         touch_phase: phase,
@@ -1405,7 +1405,7 @@ mod tests {
         cx.update(|window, cx| {
             for delta in [point(px(30.), px(-20.)), point(px(0.), px(-20.))] {
                 window.dispatch_event(
-                    gpui::PlatformInput::ScrollWheel(ScrollWheelEvent {
+                    gpui::InputEvent::to_platform_input(ScrollWheelEvent {
                         position: point(px(100.), px(100.)),
                         delta: ScrollDelta::Pixels(delta),
                         touch_phase: TouchPhase::Moved,

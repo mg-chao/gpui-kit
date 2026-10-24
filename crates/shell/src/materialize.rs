@@ -133,8 +133,8 @@ use gpui::{
     StatefulInteractiveElement, StyleRefinement, Styled, Window, div,
 };
 use gpui_base::{
-    Button, Checkbox, CheckboxState, ElementExt as _, Link, ScrollbarAxis, Switch, TextView,
-    TextViewStyle, Theme,
+    Button, Checkbox, CheckboxState, ElementExt as _, InteractiveElementExt as _, Link,
+    ScrollbarAxis, Switch, TextView, TextViewStyle, Theme,
     animation::{ease_in_cubic, ease_in_out_cubic, ease_out_cubic},
     h_flex,
     input::{Input, InputBase},
@@ -1803,7 +1803,7 @@ where
         if let Some(callback) = behavior.on_scroll_wheel {
             let runtime = Rc::downgrade(runtime);
             let bounds = Rc::clone(&bounds);
-            element = element.on_scroll_wheel(move |event, window, cx| {
+            element = element.on_scroll_event(move |event, window, cx| {
                 let Some(runtime) = runtime.upgrade() else {
                     return;
                 };

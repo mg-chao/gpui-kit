@@ -2,6 +2,10 @@
 
 [English](./README.md) | [简体中文](./README.zh-CN.md)
 
+此 Snow Shot 分支使用 [mg-chao/gpui](https://github.com/mg-chao/gpui) 的
+`2c0bf70b54c018f99419f386d1cf1105dca57661` 提交。所有 GPUI 依赖在 `Cargo.toml`
+和 `Cargo.lock` 中固定到同一提交，无需本地 GPUI 源码目录。
+
 [![Build Status](https://github.com/longbridge/gpui-kit/actions/workflows/ci.yml/badge.svg)](https://github.com/longbridge/gpui-kit/actions/workflows/ci.yml) [![Docs](https://docs.rs/gpui-kit/badge.svg)](https://docs.rs/gpui-kit/) [![Crates.io](https://img.shields.io/crates/v/gpui-kit.svg)](https://crates.io/crates/gpui-kit)
 
 使用 Rust 和 GPUI 构建出色、高性能的桌面应用。

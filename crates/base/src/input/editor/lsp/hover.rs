@@ -3,6 +3,7 @@ use gpui::{App, Context, MouseMoveEvent, Task, Window};
 use instant::Duration;
 use ropey::Rope;
 
+use crate::ModifiersExt as _;
 use crate::input::{EditorMode, HoverPopoverState, InputBaseState, RopeExt};
 
 /// Hover provider
@@ -96,7 +97,7 @@ impl InputBaseState<EditorMode> {
             self.clear_hover_state(cx);
             return;
         }
-        if event.modifiers.secondary() {
+        if event.modifiers.secondary_pressed(cx) {
             self.handle_hover_definition(offset, window, cx);
         } else {
             // Repaint only when the definition underline goes away; the hover

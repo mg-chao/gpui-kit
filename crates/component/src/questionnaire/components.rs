@@ -5,7 +5,7 @@ use gpui::{
     Role, SharedString, StatefulInteractiveElement, StyleRefinement, Styled, Window, div,
     prelude::FluentBuilder as _, svg,
 };
-use gpui_base::RadioGroup;
+use gpui_base::{KeystrokeExt as _, RadioGroup};
 use rust_i18n::t;
 
 use crate::{
@@ -940,11 +940,11 @@ impl RenderOnce for QuestionnaireChoice {
             })
             .children(self.children);
 
-        let default_shortcut = || {
+        let default_shortcut = |cx: &App| {
             let Some(shortcut) = shortcut.clone() else {
                 return gpui::Empty.into_any_element();
             };
-            let Ok(keystroke) = gpui::Keystroke::parse(&shortcut.to_lowercase()) else {
+            let Ok(keystroke) = gpui::Keystroke::parse_for_app(&shortcut.to_lowercase(), cx) else {
                 return gpui::Empty.into_any_element();
             };
             Kbd::new(keystroke)
@@ -971,7 +971,7 @@ impl RenderOnce for QuestionnaireChoice {
                 self.shortcut_renderer
                     .as_ref()
                     .map(|renderer| renderer(&choice_state, window, cx))
-                    .unwrap_or_else(default_shortcut),
+                    .unwrap_or_else(|| default_shortcut(cx)),
             )
             .into_any_element();
 

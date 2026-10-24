@@ -101,8 +101,8 @@ pub use global_state::GlobalState;
 pub use gpui_base::Root;
 pub use gpui_base::animation;
 pub use gpui_base::{
-    AxisExt, Edges, FocusTrapElement, InteractiveElementExt, LengthExt, Measure, OngoingScrollExt,
-    Placement, Side, measure, measure_if,
+    AxisExt, Edges, FocusTrapElement, InteractiveElementExt, LengthExt, Measure, ModifiersExt,
+    OngoingScrollExt, Placement, Side, measure, measure_if,
 };
 pub use gpui_component_macros::icon_named;
 pub use icon::*;

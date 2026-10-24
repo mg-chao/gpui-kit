@@ -503,6 +503,10 @@ impl<E: Element<PrepaintState = Option<Hitbox>> + InteractiveElement> Interactiv
         self
     }
 }
+impl<E: Element<PrepaintState = Option<Hitbox>> + InteractiveElement> crate::InteractiveElementExt
+    for Observed<E>
+{
+}
 impl<E: Element<PrepaintState = Option<Hitbox>> + InteractiveElement + gpui::ParentElement>
     gpui::ParentElement for Observed<E>
 {

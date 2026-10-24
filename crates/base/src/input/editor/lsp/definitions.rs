@@ -5,6 +5,7 @@ use gpui::{
 use ropey::Rope;
 use std::{ops::Range, rc::Rc};
 
+use crate::ModifiersExt as _;
 use crate::input::{EditorMode, GoToDefinition, InputBaseState, RopeExt};
 
 /// Definition provider
@@ -143,7 +144,7 @@ impl InputBaseState<EditorMode> {
         window: &mut Window,
         cx: &mut Context<InputBaseState<EditorMode>>,
     ) -> bool {
-        if !event.modifiers.secondary() || event.modifiers.alt {
+        if !event.modifiers.secondary_pressed(cx) || event.modifiers.alt {
             return false;
         }
 

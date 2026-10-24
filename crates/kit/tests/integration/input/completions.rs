@@ -2,6 +2,7 @@
 //! Popup bounds verify caret anchoring; text, focus, and provider requests
 //! verify the workflow, with acceptance proving that menu actions were routed.
 
+use gpui_kit::base::KeystrokeExt as _;
 use std::{
     cell::{Cell, RefCell},
     future::poll_fn,
@@ -269,7 +270,7 @@ impl Fixture {
         // Dispatch native input without the test helper's automatic draw. The
         // provider must finish before rendering the updated completion menu.
         cx.update_window(self.handle.into(), |_, window, cx| {
-            let mut key = Keystroke::parse(text).expect("valid test keystroke");
+            let mut key = Keystroke::parse_for_app(text, cx).expect("valid test keystroke");
             key.key_char = Some(text.into());
             window.dispatch_keystroke(key, cx);
         })

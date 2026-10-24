@@ -11,11 +11,12 @@ use std::rc::Rc;
 use gpui::{
     App, Axis, Bounds, ContentMask, Element, ElementId, GlobalElementId, Hitbox, IntoElement,
     IsZero as _, LayoutId, MouseButton, MouseDownEvent, MouseMoveEvent, MouseUpEvent,
-    OngoingScroll, Position, ScrollWheelEvent, Style, TouchPhase, Window, relative,
+    OngoingScroll, Position, Style, TouchPhase, Window, relative,
 };
 
 use super::state::CarouselState;
 use crate::{AxisExt as _, OngoingScrollExt as _, global_state::GlobalState};
+use gpui_base::ScrollWheelEvent;
 
 /// A viewport-sized, invisible event surface for a Carousel.
 ///

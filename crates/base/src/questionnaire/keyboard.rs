@@ -1,6 +1,7 @@
 use gpui::{App, Entity, KeyDownEvent, Window};
 
 use super::QuestionnaireState;
+use crate::ModifiersExt as _;
 
 /// Routes a key press to the questionnaire's behavior and reports whether it
 /// was consumed. The skin installs it on the root; the contract — arrows move
@@ -33,7 +34,9 @@ pub fn handle_key_down(
             && state.focused_current_choice(window).is_some()
     };
 
-    let handled = if key == "enter" && modifiers.secondary() && modifiers.number_of_modifiers() == 1
+    let handled = if key == "enter"
+        && modifiers.secondary_pressed(cx)
+        && modifiers.number_of_modifiers() == 1
     {
         state.update(cx, |state, cx| state.confirm_current(window, cx))
     } else if modifiers.number_of_modifiers() != 0 {

@@ -499,7 +499,7 @@ impl<M: InputModeKind> TextElement<M> {
         window.on_mouse_event({
             let state = self.state.clone();
             let hitbox = hitbox.id;
-            move |event: &gpui::ScrollWheelEvent, phase, window, cx| {
+            move |event: &crate::ScrollWheelEvent, phase, window, cx| {
                 if phase.capture()
                     && hitbox.should_handle_scroll(window)
                     && state

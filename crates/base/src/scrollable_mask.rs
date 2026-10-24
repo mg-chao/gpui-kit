@@ -6,13 +6,13 @@ use instant::Instant;
 use gpui::{
     App, Axis, BorderStyle, Bounds, ContentMask, Edges, Element, ElementId, GlobalElementId,
     Hitbox, Hsla, InteractiveElement as _, IntoElement, IsZero as _, LayoutId, OngoingScroll,
-    PaintQuad, ParentElement as _, Point, Position, ScrollDelta, ScrollHandle, ScrollWheelEvent,
+    PaintQuad, ParentElement as _, Point, Position, ScrollDelta, ScrollHandle,
     StatefulInteractiveElement as _, Style, StyleRefinement, Styled as _, Window, div, px,
     relative,
 };
 use gpui::{Corners, Pixels};
 
-use crate::{AxisExt, OngoingScrollExt as _, ScrollbarHandle, StyledExt as _};
+use crate::{AxisExt, OngoingScrollExt as _, ScrollWheelEvent, ScrollbarHandle, StyledExt as _};
 
 thread_local! {
     static LAST_HORIZONTAL_SCROLL_CLAIM: Cell<Option<HorizontalScrollClaim>> =
@@ -635,8 +635,8 @@ impl<H: ScrollbarHandle + Clone> Element for ScrollableMask<H> {
 mod tests {
     use super::*;
     use gpui::{
-        Context, IntoElement, ListAlignment, ListState, Render, ScrollDelta, ScrollWheelEvent,
-        TestAppContext, VisualTestContext, Window, div, list, point, px,
+        Context, IntoElement, ListAlignment, ListState, Render, ScrollDelta, TestAppContext,
+        VisualTestContext, Window, div, list, point, px,
     };
 
     #[test]
@@ -1037,7 +1037,7 @@ mod tests {
         cx.update(|window, cx| {
             let mut dispatch = |delta_x: f32| {
                 window.dispatch_event(
-                    gpui::PlatformInput::ScrollWheel(ScrollWheelEvent {
+                    gpui::InputEvent::to_platform_input(ScrollWheelEvent {
                         position: point(px(10.), px(10.)),
                         delta: ScrollDelta::Pixels(point(px(delta_x), px(0.))),
                         ..Default::default()

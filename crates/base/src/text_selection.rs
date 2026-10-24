@@ -10,10 +10,11 @@ use gpui::{
     App, AppContext as _, Bounds, Context, Element, ElementId, Entity, EntityId, EventEmitter,
     Global, GlobalElementId, Half, Hitbox, HitboxBehavior, Hsla, InputEvent as _,
     InspectorElementId, IntoElement, LayoutId, LongPressEvent, MouseButton, MouseDownEvent,
-    MouseMoveEvent, MouseUpEvent, Pixels, Point, ScrollDelta, ScrollWheelEvent, SharedString,
-    Style, Subscription, TextLayout, TouchDragEvent, TouchPhase, WeakEntity, Window, point, px,
+    MouseMoveEvent, MouseUpEvent, Pixels, Point, ScrollDelta, SharedString, Style, Subscription,
+    TextLayout, TouchDragEvent, TouchPhase, WeakEntity, Window, point, px,
 };
 
+use crate::ScrollWheelEvent;
 use crate::text_boundary::{line_range_at, word_range_at};
 use crate::touch_selection::{
     EdgeDrag, SelectionEdge, TouchHandle, TouchSelectionSnapshot, caret_in_view,

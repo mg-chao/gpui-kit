@@ -1,3 +1,4 @@
+use gpui_base::ModifiersExt as _;
 use instant::Duration;
 use std::ops::Range;
 
@@ -510,7 +511,7 @@ where
                     this.selected_index = Some(ix);
                     this.on_action_confirm(
                         &Confirm {
-                            secondary: e.modifiers().secondary(),
+                            secondary: e.modifiers().secondary_pressed(cx),
                         },
                         window,
                         cx,

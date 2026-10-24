@@ -287,7 +287,8 @@ mod tests {
     }
 
     fn activate_key(cx: &mut VisualTestContext, key: &str) {
-        let keystroke = Keystroke::parse(key).unwrap();
+        let keystroke =
+            cx.update(|_, cx| <Keystroke as crate::KeystrokeExt>::parse_for_app(key, cx).unwrap());
         cx.simulate_event(KeyDownEvent {
             keystroke: keystroke.clone(),
             is_held: false,

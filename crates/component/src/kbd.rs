@@ -5,6 +5,7 @@ use gpui::{
 };
 
 use crate::{ActiveTheme, StyledExt};
+use gpui_base::KeystrokeExt as _;
 
 /// A tag for displaying keyboard keybindings.
 #[derive(IntoElement, Clone, Debug)]
@@ -238,7 +239,7 @@ impl RenderOnce for Kbd {
         div()
             // Lets a test ask whether a given shortcut hint was painted this
             // frame; a no-op outside test-support builds.
-            .debug_selector(|| format!("kbd:{}", self.stroke.unparse()))
+            .debug_selector(|| format!("kbd:{}", self.stroke.unparse_for_app(cx)))
             .text_color(cx.theme().muted_foreground)
             .bg(cx.theme().tokens.muted)
             .when(self.outline, |this| {

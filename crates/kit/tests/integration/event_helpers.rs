@@ -1,4 +1,5 @@
 use crate::common;
+use gpui_kit::base::InteractiveElementExt as _;
 use gpui_kit::test::{TestEventExt, TestSupportExt, TestWindowExt};
 use gpui_kit::{
     AppContext, Context, FocusHandle, Modifiers, MouseButton, ScrollDelta, TestAppContext, Window,
@@ -46,7 +47,7 @@ impl Render for Surface {
                     .pointer
                     .push(("up", event.modifiers, Some(event.button)))
             })
-            .on_scroll_wheel(move |event, _, _| {
+            .on_scroll_event(move |event, _, _| {
                 scrolled.borrow_mut().scroll_modifiers.push(event.modifiers)
             })
             .on_key_down(move |event, _, cx| {

@@ -59,26 +59,22 @@ gpui-shell = { path = "crates/shell", version = "0.8.0" }
 gpui-webview = { path = "crates/webview", version = "0.8.0" }
 story = { path = "crates/story" }
 
-# GPUI comes from the `gpui-pre-*` snapshots of Zed's crates, and any snapshot
-# may change GPUI's API. These requirements are what the published gpui-kit
-# crates carry to crates.io, so they pin the exact snapshot the release was
-# built against: a caret requirement let the weekly release move applications
-# onto a newer snapshot that gpui-component did not compile with (#3156). Bump
-# every snapshot crate together with its Cargo.lock entry; `script/check-gpui-pin.ts`
-# fails CI when a pin is not exact.
-gpui = { package = "gpui-pre", version = "=0.3.9" }
-gpui_platform = { package = "gpui-pre-platform", version = "=0.3.9", features = ["font-kit", "x11", "wayland", "runtime_shaders"] }
-gpui_web = { package = "gpui-pre-web", version = "=0.3.9" }
+# Keep GPUI and its companion crates on the same immutable Snow Shot fork
+# revision so applications share compatible GPUI types. Update the pins and
+# Cargo.lock together; script/check-gpui-pin.ts enforces the common revision.
+gpui = { package = "gpui", version = "=0.2.2", git = "https://github.com/mg-chao/gpui.git", rev = "2c0bf70b54c018f99419f386d1cf1105dca57661" }
+gpui_platform = { package = "gpui_platform", git = "https://github.com/mg-chao/gpui.git", rev = "2c0bf70b54c018f99419f386d1cf1105dca57661", features = ["font-kit", "x11", "wayland", "runtime_shaders"] }
+gpui_web = { package = "gpui_web", git = "https://github.com/mg-chao/gpui.git", rev = "2c0bf70b54c018f99419f386d1cf1105dca57661" }
 # Fast is optional; existing crates select it through their gpui-fast feature.
 # Explicit package fields make Cargo use these dependency keys as Rust crate names;
 # the packages declare the same library names as the pre backend.
 gpui-fast = { package = "gpui-fast", version = "0.1.10", features = ["windows-manifest-provided-by-host"] }
 gpui-fast-platform = { package = "gpui-fast-platform", version = "0.1.10", features = ["font-kit", "x11", "wayland", "runtime_shaders"] }
 gpui-fast-web = { package = "gpui-fast-web", version = "0.1.10" }
-gpui_macros = { package = "gpui-pre-macros", version = "=0.3.9" }
-reqwest_client = { package = "gpui-pre-reqwest-client", version = "=0.3.9" }
-sum-tree = { package = "gpui-pre-sum-tree", version = "=0.3.9" }
-reqwest = { package = "gpui-pre-reqwest", version = "=0.12.15", default-features = false, features = [
+gpui_macros = { package = "gpui_macros", git = "https://github.com/mg-chao/gpui.git", rev = "2c0bf70b54c018f99419f386d1cf1105dca57661" }
+reqwest_client = { package = "reqwest_client", git = "https://github.com/mg-chao/gpui.git", rev = "2c0bf70b54c018f99419f386d1cf1105dca57661" }
+sum-tree = { package = "sum_tree", git = "https://github.com/mg-chao/gpui.git", rev = "2c0bf70b54c018f99419f386d1cf1105dca57661" }
+reqwest = { package = "zed-reqwest", git = "https://github.com/zed-industries/reqwest.git", rev = "33bc764aa15ff7b200bf7c93bd96e24878d53e14", default-features = false, features = [
     "charset",
     "http2",
     "macos-system-configuration",
@@ -159,15 +155,15 @@ rustybuzz = { opt-level = 3 }
 taffy = { opt-level = 3 }
 ttf-parser = { opt-level = 3 }
 smol = { opt-level = 3 }
-gpui-pre = { opt-level = 3 }
+gpui = { opt-level = 3 }
 gpui-fast = { opt-level = 3 }
 gpui-fast-platform = { opt-level = 3 }
-gpui-pre-platform = { opt-level = 3 }
+gpui_platform = { opt-level = 3 }
 tree-sitter = { opt-level = 3 }
-gpui-pre-sum-tree = { opt-level = 3 }
+sum_tree = { opt-level = 3 }
 ropey = { opt-level = 3 }
 lsp-types = { opt-level = 3 }
-gpui-pre-reqwest-client = { opt-level = 3 }
+reqwest_client = { opt-level = 3 }
 markdown = { opt-level = 3 }
 xml5ever = { opt-level = 3 }
 # `quickjs-jit` is a facade that re-exports `quickjs-jit-core`, so naming it alone

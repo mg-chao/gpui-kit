@@ -1,7 +1,7 @@
 //! GPUI Kit: one dependency for building desktop applications with GPUI.
 //!
-//! GPUI itself is published as a family of `gpui-pre-*` crates that move
-//! together. This crate depends on the matching set for you, so an
+//! This fork pins GPUI and its companion crates to one Git revision.
+//! This crate depends on the matching set for you, so an
 //! application lists `gpui-kit` alone. `use gpui_kit::*;` is GPUI, and each
 //! layer is reachable by name:
 //!
@@ -40,7 +40,7 @@
 //! ```
 //!
 //! Enable `gpui-fast` to select GPUI Fast for the core, platform, and enabled
-//! layers without changing imports. Upstream remains the default backend.
+//! layers without changing imports. The pinned GPUI fork remains the default backend.
 //!
 //! See [`component`] for the same program with the styled component library.
 
@@ -213,3 +213,4 @@ pub fn init(cx: &mut App) {
 
 /// Fluent UI test observation, inert unless `test-support` is enabled.
 pub use gpui_base::TestSupportExt;
+pub use gpui_base::{ScrollEvent, ScrollWheelEvent};

@@ -12,6 +12,7 @@ use gpui::{
 };
 
 use crate::{input::AnyInputState, menu::PopupMenu, root::WindowState};
+use gpui_base::InteractiveElementExt as _;
 
 /// A extension trait for adding a context menu to an element.
 pub trait ContextMenuExt: InteractiveElement + ParentElement + Styled {
@@ -183,7 +184,7 @@ impl DeferredMenu {
                 div()
                     .w(window.bounds().size.width)
                     .h(window.bounds().size.height)
-                    .on_scroll_wheel(|_, _, cx| {
+                    .on_scroll_event(|_, _, cx| {
                         cx.stop_propagation();
                     })
                     .child(

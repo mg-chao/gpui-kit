@@ -1,3 +1,4 @@
+use gpui_kit::base::KeystrokeExt as _;
 use gpui_kit::component::{
     ActiveTheme as _, Sizable, Size, StyledExt as _, WindowExt as _,
     button::{Button, ButtonVariants as _},
@@ -706,12 +707,12 @@ impl Render for QuestionnaireStory {
                                             })
                                             .into_any_element()
                                     })
-                                    .render_shortcut(|choice, _, _| {
+                                    .render_shortcut(|choice, _, cx| {
                                         let Some(shortcut) = choice.shortcut() else {
                                             return div().into_any_element();
                                         };
                                         let Ok(keystroke) =
-                                            Keystroke::parse(&shortcut.to_lowercase())
+                                            Keystroke::parse_for_app(&shortcut.to_lowercase(), cx)
                                         else {
                                             return div().into_any_element();
                                         };

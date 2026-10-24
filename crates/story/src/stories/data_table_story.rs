@@ -6,6 +6,7 @@ use std::{
 };
 
 use fake::Fake;
+use gpui_kit::base::ModifiersExt as _;
 use gpui_kit::component::{
     ActiveTheme as _, Sizable as _, Size, StyleSized as _, StyledExt,
     button::Button,
@@ -688,7 +689,7 @@ impl TableDelegate for StockTableDelegate {
             .on_click(cx.listener(move |table, ev: &ClickEvent, _window, cx| {
                 println!(
                     "You have clicked row with secondary: {}",
-                    ev.modifiers().secondary()
+                    ev.modifiers().secondary_pressed(cx)
                 );
 
                 table.delegate_mut().clicked_row = Some(row_ix);

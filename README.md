@@ -6,6 +6,10 @@
 
 [English](./README.md) | [简体中文](./README.zh-CN.md)
 
+This Snow Shot fork uses [mg-chao/gpui](https://github.com/mg-chao/gpui) at revision
+`2c0bf70b54c018f99419f386d1cf1105dca57661`. Its GPUI dependencies are pinned together
+in `Cargo.toml` and `Cargo.lock`; no local GPUI checkout is required.
+
 [![Build Status](https://github.com/longbridge/gpui-kit/actions/workflows/ci.yml/badge.svg)](https://github.com/longbridge/gpui-kit/actions/workflows/ci.yml) [![Docs](https://docs.rs/gpui-kit/badge.svg)](https://docs.rs/gpui-kit/) [![Crates.io](https://img.shields.io/crates/v/gpui-kit.svg)](https://crates.io/crates/gpui-kit)
 
 Build fantastic, high-performance desktop apps with Rust and GPUI.

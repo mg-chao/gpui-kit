@@ -1,5 +1,6 @@
 use super::entrance::{DialogEntrance, EntranceSurface};
 use crate::root::WindowState;
+use gpui_base::InteractiveElementExt as _;
 use gpui_base::TestSupportExt as _;
 use std::{rc::Rc, sync::LazyLock, time::Duration};
 
@@ -882,7 +883,7 @@ impl RenderOnce for Dialog {
                                                         .on_any_mouse_down(|_, _, cx| {
                                                             cx.stop_propagation()
                                                         })
-                                                        .on_scroll_wheel(|_, _, cx| {
+                                                        .on_scroll_event(|_, _, cx| {
                                                             cx.stop_propagation()
                                                         }),
                                                 )
